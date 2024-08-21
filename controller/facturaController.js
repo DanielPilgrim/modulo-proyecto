@@ -17,7 +17,31 @@ const postFactura = async(req,res) => {
     res.json({msg:msg})
 }
 
+const putFactura =  async (req, res)=>{
+    let msg = 'factura updated'
+    const {fecha, estado} = req.body
+    try {
+        await factura_venta.findOneAndUpdate({fecha:fecha}, {estado:estado})
+    }catch (error){
+        msg = error
+    }
+    res.json({msg:msg})
+}
+
+const deleteFactura = async (req,res)=>{
+    let msg = 'factura deleted'
+    id = req.params.id
+    try {
+        await factura_venta.findOneAndDelete({_id:id})
+    }catch (error){
+        msg = 'There was an error deleting the factura'
+    }
+    res.json({msg:msg})
+}
+
 module.exports = {
     getFactura,
-    postFactura
+    postFactura,
+    putFactura,
+    deleteFactura
 }
