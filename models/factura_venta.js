@@ -1,15 +1,14 @@
-const {model, Schema} = require('mongoose')
+const { model, Schema } = require('mongoose');
 
 const facturaSchema = new Schema({
-    fecha:{
-        type:Date,//tipo de dato
-        required:[true, 'the date is required'],//es obligatorio
+    fecha: {
+        type: Date,
+        required: [true, 'The date is required'],
     },
-    estado:{
-        type:String,//tipo de dato
-        required:[true, 'the state is required'],//es obligatorio
+    estado: {
+        type: String,
+        required: [true, 'The state is required'],
     }
-}
-)
+});
 
-module.exports = model('factura_venta', facturaSchema, 'factura_venta'); //crea la coleccion si no existe 
+module.exports = model('FacturaVenta', facturaSchema, 'factura_venta');

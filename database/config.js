@@ -10,4 +10,4 @@ const dbConnection = async () => {
     }
 }
 
-module.exports = dbConnection(); //exportar la funcion dbconnection
+module.exports = dbConnection; //exportar la funcion dbconnection

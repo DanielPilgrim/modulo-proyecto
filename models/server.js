@@ -1,36 +1,43 @@
+require('dotenv').config();
+const Server = require('./models/server');
+const dbConnect = require('../database/config');
 const express = require('express');
-const dbConnect = require('../database/config')
-require('../database/config')
-const {getFactura,postFactura} = require('../controller/facturaController')
-const {getPaquete,postPaquete} = require('../controller/paqueteController')
+const { getFactura, postFactura } = require('./controller/facturaController');
+const { getPaquete, postPaquete } = require('./controller/paqueteController');
 
 class Server {
-    constructor(){
+    constructor() {
         this.app = express();
-        this.dbConnection(); 
+        this.dbConnection();
         this.pathFactura = '/api/factura';
         this.pathPaquete = '/api/paquete';
-        this.route();
+        this.middlewares(); // Añadir middlewares
+        this.routes();
         this.listen();
     }
 
-    async dbConnection(){  //llamar la coneccion de la base de datos
-        await dbConnect;
+    async dbConnection() {
+        await dbConnect();
     }
-    route(){
-        this.app.use(express.json())
-        this.app.get(this.pathFactura, getFactura)
-        this.app.post(this.pathFactura, postFactura)
-        //////////////////////////////////////////////////
-        this.app.get(this.pathPaquete, getPaquete)
-        this.app.post(this.pathPaquete, postPaquete)
+
+    middlewares() {
+        this.app.use(express.json()); // Para recibir y manejar JSON
     }
-    listen(){
-        this.app.listen(process.env.PORT, () => {
-            console.log('server is running')
-        })
+
+    routes() {
+        this.app.get(this.pathFactura, getFactura);
+        this.app.post(this.pathFactura, postFactura);
+        this.app.get(this.pathPaquete, getPaquete);
+        this.app.post(this.pathPaquete, postPaquete);
+    }
+
+    listen() {
+        this.app.listen(process.env.PORT || 3000, () => {
+            console.log(`Server is running on port ${process.env.PORT || 3000}`);
+        });
     }
 }
 
-module.exports = Server; // exportar la calse server
+module.exports = Server;
+
 
